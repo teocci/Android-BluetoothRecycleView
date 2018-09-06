@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">BluetoothRecycleView</string>
+
+    <string name="bt_scanning">Scanning for devices</string>
+    <string name="bt_unknown_device">Unknown device</string>
+    <string name="bt_unknown_mac_add">00:00:00:00:00:00</string>
+    <string name="bt_device_mac_add">MAC: %s</string>
+    <string name="bt_device_signal">%d dBm</string>
+    <string name="bt_unknown_signal">N/A</string>
+</resources>
