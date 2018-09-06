@@ -1,13 +1,11 @@
 package com.github.teocci.android.bluetoothrecycleview.ui;
 
-import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +26,9 @@ import com.github.teocci.android.bluetoothrecycleview.views.DeviceRecycleView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.bluetooth.BluetoothDevice.BOND_BONDED;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.github.teocci.android.bluetoothrecycleview.views.DeviceRecycleView.STATE_LOADING;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener
@@ -124,11 +124,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         //Request Permission
         if (Build.VERSION.SDK_INT >= 23) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                    PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
                 Toast.makeText(this, "Request permissions", Toast.LENGTH_SHORT).show();
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_COARSE_LOCATION_CODE);
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{ACCESS_COARSE_LOCATION},
+                        ACCESS_COARSE_LOCATION_CODE
+                );
             }
         }
 
@@ -142,13 +144,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
         handler.post(scanTask);
     }
 
     @Override
-    protected void onRestart() {
+    protected void onRestart()
+    {
         super.onRestart();
         handler.post(scanTask);
     }
