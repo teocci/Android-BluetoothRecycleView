@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.bluetooth.BluetoothDevice.BOND_BONDED;
+import static com.github.teocci.android.bluetoothrecycleview.views.DeviceRecycleView.STATE_LOADING;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener
 {
@@ -209,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.invokeState(STATE_LOADING);
     }
 
     private void initAdapter()
@@ -227,11 +229,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void scanBluetooth()
     {
-        setProgressBarIndeterminateVisibility(true);
         setTitle(R.string.bt_scanning);
 
         if (bluetoothAdapter.isDiscovering()) {
             bluetoothAdapter.cancelDiscovery();
+            recyclerView.invokeState(DeviceRecycleView.STATE_OK);
         }
 
         bluetoothAdapter.startDiscovery();
